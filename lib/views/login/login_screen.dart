@@ -8,7 +8,7 @@ import 'package:intellectra/components/constants.dart';
 import 'package:intellectra/components/auth_build.dart';
 import 'package:intellectra/views/sign-up/sign_up_screen.dart';
 
-import 'package:intellectra/test.dart';
+import 'package:intellectra/views/profile/profile_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -22,7 +22,7 @@ class LoginScreenState extends State<LoginScreen> {
   final TextEditingController passwordController = TextEditingController();
 
   Future<void> login() async {
-    final url = Uri.parse('http://127.0.0.1:8000/users/login/');
+    final url = Uri.parse('http://127.0.0.1:8000/users/api/login/');
 
     final response = await http.post(
       url,
@@ -43,8 +43,8 @@ class LoginScreenState extends State<LoginScreen> {
       await prefs.setString('role', role);
 
       if (role == "etudiant") {
-        Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => Test()));
+        Navigator.pushNamed(
+            context, MaterialPageRoute(builder: (context) => ProfileScreen()) as String, arguments: data['id']);
       } else if (role == "professor") {
         // Navigator.pushReplacement(
         //     context, MaterialPageRoute(builder: (context) => ProfessorScreen()));

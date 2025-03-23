@@ -17,12 +17,11 @@ class SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
   bool _acceptTerms = false;
 
   Future<void> signUp() async {
-    final url = Uri.parse('http://127.0.0.1:8000/users/register/');
+    final url = Uri.parse('http://127.0.0.1:8000/users/api/register/');
     final response = await http.post(
       url,
       headers: {"Content-Type": "application/json"},
