@@ -1,6 +1,6 @@
-# intellectra
+# Intellectra
 
-A new Flutter project.
+E-learning app using flutter 
 
 ## Getting Started
 
