@@ -19,7 +19,7 @@ class ProfileScreenState extends State<ProfileScreen> {
 
   Future<Map<String, dynamic>> fetchUserData(int num) async {
     final response = await http.get(
-      Uri.parse('https://127.0.0.1:8000/users/$num/'),
+      Uri.parse('http://127.0.0.1:8000/users/$num/'),
     ); //API dyal user
 
     if (response.statusCode == 200) {
@@ -87,7 +87,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                       backgroundImage:
                           userData['avatar'] != null
                               ? CachedNetworkImageProvider(userData['avatar'])
-                              : const AssetImage('assets/images/avatar.png')
+                              : const AssetImage('assets/images/avatar.jpg')
                                   as ImageProvider,
                     ),
                     const SizedBox(height: 10),

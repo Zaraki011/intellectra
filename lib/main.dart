@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intellectra/views/splash_screen/splash_screen.dart';
+import 'package:intellectra/views/profile/profile_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,9 +11,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Intellectra',
-      home: SplashScreen(),
+      debugShowCheckedModeBanner: false,
+      initialRoute: '/',  // Route initiale
+      routes: {
+        '/': (context) => SplashScreen(),  // Écran d'accueil
+        '/profile': (context) => ProfileScreen(),  // Déclaration de la route
+      },
     );
   }
 }

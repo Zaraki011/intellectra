@@ -8,8 +8,6 @@ import 'package:intellectra/components/constants.dart';
 import 'package:intellectra/components/auth_build.dart';
 import 'package:intellectra/views/sign-up/sign_up_screen.dart';
 
-import 'package:intellectra/views/profile/profile_screen.dart';
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -44,7 +42,7 @@ class LoginScreenState extends State<LoginScreen> {
 
       if (role == "etudiant") {
         Navigator.pushNamed(
-            context, MaterialPageRoute(builder: (context) => ProfileScreen()) as String, arguments: data['id']);
+            context, '/profile', arguments: data['id']);
       } else if (role == "professor") {
         // Navigator.pushReplacement(
         //     context, MaterialPageRoute(builder: (context) => ProfessorScreen()));
