@@ -6,7 +6,7 @@ class CategoryCard extends StatelessWidget {
   String title;
   String description;
 
-  CategoryCard({Key? key, required this.img, required this.title, required this.description}): super(key: key);
+  CategoryCard({super.key, required this.img, required this.title, required this.description});
 
   @override
   Widget build(BuildContext context) {

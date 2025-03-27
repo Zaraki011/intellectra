@@ -14,10 +14,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Intellectra',
       debugShowCheckedModeBanner: false,
-      initialRoute: '/',  // Route initiale
+      initialRoute: '/',  
       routes: {
-        '/': (context) => SplashScreen(),  // Écran d'accueil
-        '/profile': (context) => ProfileScreen(),  // Déclaration de la route
+        '/': (context) => SplashScreen(),  
+        '/profile': (context) => ProfileScreen(),  
       },
     );
   }
