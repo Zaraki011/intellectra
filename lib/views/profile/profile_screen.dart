@@ -89,6 +89,9 @@ class ProfileScreenState extends State<ProfileScreen> {
                               ? CachedNetworkImageProvider(userData['avatar'])
                               : const AssetImage('assets/images/avatar.jpg')
                                   as ImageProvider,
+                                  onBackgroundImageError: (_, __) {
+                                    debugPrint('Error : ${userData['avatar']}');
+                                  },
                     ),
                     const SizedBox(height: 10),
                     Text(

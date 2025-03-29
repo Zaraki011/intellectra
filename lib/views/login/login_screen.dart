@@ -8,6 +8,7 @@ import 'package:intellectra/components/constants.dart';
 import 'package:intellectra/components/auth_build.dart';
 import 'package:intellectra/views/sign-up/sign_up_screen.dart';
 
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -41,11 +42,15 @@ class LoginScreenState extends State<LoginScreen> {
       await prefs.setString('role', role);
 
       if (role == "etudiant") {
+        // Navigator.pushNamed(
+        //     context, '/profile', arguments: data['id']);
         Navigator.pushNamed(
-            context, '/profile', arguments: data['id']);
+          context,
+          '/home',
+        );
       } else if (role == "professor") {
         // Navigator.pushReplacement(
-        //     context, MaterialPageRoute(builder: (context) => ProfessorScreen()));
+        //     context, MaterialPageRoute(builder: (context) => HomeScreen()));
       }
     } else {
       ScaffoldMessenger.of(
@@ -136,12 +141,11 @@ class LoginScreenState extends State<LoginScreen> {
                   ),
                   TextButton(
                     onPressed: () {
-                      Navigator.pushAndRemoveUntil(
+                      Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => const SignUpScreen(),
-                        ),
-                        (route) => false,
+                        )
                       );
                     },
                     child: Text(

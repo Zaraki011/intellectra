@@ -37,6 +37,7 @@ class SignUpScreenState extends State<SignUpScreen> {
           content: Text('Account created successfully'),
         ),
       );
+      Navigator.pop(context);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
