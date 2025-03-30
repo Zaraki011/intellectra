@@ -9,15 +9,14 @@ class CourseCard extends StatelessWidget {
   double? rating;
 
   CourseCard(
-      {Key? key,
+      {super.key,
       required this.courseImage,
       required this.courseName,
       this.mentorName,
       this.rating,
       required this.totalTime,
       // required this.totalVideo
-      })
-      : super(key: key);
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -132,8 +131,7 @@ class CourseCard extends StatelessWidget {
 }
 
 class GreenChipWidget extends StatelessWidget {
-  GreenChipWidget({Key? key, required this.icon, required this.label})
-      : super(key: key);
+  GreenChipWidget({super.key, required this.icon, required this.label});
 
   IconData icon;
   String label;
