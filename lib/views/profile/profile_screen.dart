@@ -43,7 +43,8 @@ class ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: bottomNavigation(context),
+      backgroundColor: backgroundColor,
+      bottomNavigationBar: bottomNavigation(context, 3,ModalRoute.of(context)!.settings.arguments as int),
       body: FutureBuilder<Map<String, dynamic>>(
         future: userData,
         builder: (context, snapshot) {

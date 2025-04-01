@@ -47,6 +47,7 @@ class LoginScreenState extends State<LoginScreen> {
         Navigator.pushNamed(
           context,
           '/home',
+          arguments: data['id'],
         );
       } else if (role == "professor") {
         // Navigator.pushReplacement(
@@ -62,7 +63,7 @@ class LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: backgroundColor,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),

@@ -1,3 +1,4 @@
+// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -5,7 +6,10 @@ import 'dart:convert';
 import 'package:intellectra/components/carousel.dart';
 import '../../components/category_card.dart';
 import '../../components/course_card.dart';
-import '../../models/course.dart';
+import '../../components/bottom_navigation.dart';
+import '../../models/course.dart'; 
+import '../../components/constants.dart';
+import 'package:intellectra/models/category.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -15,21 +19,33 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  static const String baseUrl = "http://127.0.0.1:8000/"; // Change to your API
+  static const String baseUrl = "http://127.0.0.1:8000/";
 
-  Future<List<dynamic>> fetchCategories() async {
+  late Future<List<Categorie>> _categoriesFuture;
+  late Future<List<Course>> _coursesFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _categoriesFuture = fetchCategories();
+    _coursesFuture = fetchCourses();
+  }
+
+  Future<List<Categorie>> fetchCategories() async {
     final response = await http.get(Uri.parse("$baseUrl/courses/categories/"));
     if (response.statusCode == 200) {
-      return json.decode(response.body);
+      List<dynamic> data = json.decode(response.body);
+      return data.map((json) => Categorie.fromJson(json)).toList();
     } else {
       throw Exception("Failed to load categories");
     }
   }
 
-  Future<List<dynamic>> fetchCourses() async {
+  Future<List<Course>> fetchCourses() async {
     final response = await http.get(Uri.parse("$baseUrl/courses/"));
     if (response.statusCode == 200) {
-      return json.decode(response.body);
+      List<dynamic> data = json.decode(response.body);
+      return data.map((json) => Course.fromJson(json)).toList();
     } else {
       throw Exception("Failed to load courses");
     }
@@ -38,12 +54,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: backgroundColor,
+      bottomNavigationBar: bottomNavigation(context, 0, ModalRoute.of(context)!.settings.arguments as int),
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Image.asset(
-          'assets/images/logo.png',
-          height: 40,
-        ),
+        title: Image.asset('assets/images/logo.png', height: 40),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -59,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
             FutureBuilder<List<dynamic>>(
-              future: fetchCategories(),
+              future: _categoriesFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
@@ -79,10 +94,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     childAspectRatio: 1.5,
                   ),
                   itemBuilder: (context, index) {
-                    return CategoryCard(
-                      img: categories[index]['categoryImage'] ?? '',
-                      title: categories[index]['categoryName'] ?? '',
-                      description: categories[index]['description'] ?? '',
+                    return GestureDetector(
+                      onTap: () {
+                        // Naviguer vers l'écran de détail
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => DetailCourseScreen(
+                        //       courseId: courses[index].id,
+                        //     ),
+                        //   ),
+                        // );
+                      },
+                      child: CategoryCard(category: categories[index]),
                     );
                   },
                 );
@@ -93,11 +117,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
             // Courses Section
             const Text(
-              'Top Course',
+              'Top Courses',
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
-            FutureBuilder<List<dynamic>>(
-              future: fetchCourses(),
+            FutureBuilder<List<Course>>(
+              future: _coursesFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
@@ -112,23 +136,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   itemCount: courses.length >= 3 ? 3 : courses.length,
                   itemBuilder: (context, index) {
                     return GestureDetector(
-                      // onTap: () {
-                      //   Navigator.push(
-                      //     context,
-                      //     MaterialPageRoute(
-                      //       builder: (context) => DetailCourseScreen(
-                      //         courseId: courses[index]['id'],
-                      //       ),
-                      //     ),
-                      //   );
-                      // },
-                      child: CourseCard(
-                        courseImage: courses[index]['courseImage'] ?? '',
-                        courseName: courses[index]['courseName'] ?? '',
-                        rating: (courses[index]['totalRating'] as num?)?.toDouble() ?? 0.0,
-                        totalTime: courses[index]['totalTime'] ?? '-',
-                        // totalVideo: courses[index]['totalVideo']?.toString() ?? '-',
-                      ),
+                      onTap: () {
+                        // Naviguer vers l'écran de détail
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => DetailCourseScreen(
+                        //       courseId: courses[index].id,
+                        //     ),
+                        //   ),
+                        // );
+                      },
+                      child: CourseCard(course: courses[index]),
                     );
                   },
                 );

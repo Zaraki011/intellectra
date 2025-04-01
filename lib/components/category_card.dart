@@ -1,38 +1,33 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
+import '../../models/category.dart';
+// import 'constants.dart';
 
 // ignore: must_be_immutable
 class CategoryCard extends StatelessWidget {
-  String img;
-  String title;
-  String description;
+  final Categorie category;
 
-  CategoryCard({super.key, required this.img, required this.title, required this.description});
+  const CategoryCard({super.key, required this.category});
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.white,
       elevation: 2,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          CircleAvatar(
-            radius: 30,
-            backgroundImage: NetworkImage(img),
+          CircleAvatar(radius: 30, backgroundImage: NetworkImage(category.img)),
+          Text(
+            category.title,
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           Text(
-            title,
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          Text(
-            description,
+            category.description,
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 11,
+              fontSize: 14,
               fontWeight: FontWeight.w200,
-              color: Colors.white54
+              color: Colors.black54,
             ),
           ),
         ],
