@@ -16,4 +16,13 @@ class Categorie {
       description: json['description'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'categoryImage': img,
+      'categoryName': title,
+      'description': description,
+    };
+  }
+  
 }

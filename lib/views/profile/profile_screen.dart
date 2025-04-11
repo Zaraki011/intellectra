@@ -6,6 +6,7 @@ import 'package:intellectra/components/bottom_navigation.dart';
 import 'package:intellectra/components/constants.dart';
 import 'package:intellectra/components/menu_item.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -121,8 +122,24 @@ class ProfileScreenState extends State<ProfileScreen> {
                     buildMenuItem('Mes courses', () {}),
                     buildMenuItem('Certificate', () {}),
                     buildMenuItem('Data repport', () {}),
-                    buildMenuItem('FAQ', () {}),
-                    buildMenuItem('Email support', () {}),
+                    buildMenuItem('FAQ', () {Navigator.pushNamed(context, '/faq');}),
+                    buildMenuItem('Email support', () {
+                      String? encodeQueryParameters(Map<String, String> params) {
+                      return params.entries
+                          .map((e) =>
+                              '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+                          .join('&');
+                      }
+
+                      final Uri emailLaunchUri = Uri(
+                        scheme: 'mailto',
+                        path: 'Group@intellectra.com',
+                        query: encodeQueryParameters(
+                            <String, String>{'subject': 'Request an Account'}),
+                      );
+
+                      launchUrl(emailLaunchUri);
+                    }),
                     buildMenuItem('About us', () {}),
                   ],
                 ),

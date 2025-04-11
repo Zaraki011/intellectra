@@ -1,7 +1,6 @@
 // import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:intellectra/providers/api/fetch_data_api.dart';
 
 import 'package:intellectra/components/carousel.dart';
 import '../../components/category_card.dart';
@@ -27,28 +26,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _categoriesFuture = fetchCategories();
-    _coursesFuture = fetchCourses();
-  }
-
-  Future<List<Categorie>> fetchCategories() async {
-    final response = await http.get(Uri.parse("$baseUrl/courses/categories/"));
-    if (response.statusCode == 200) {
-      List<dynamic> data = json.decode(response.body);
-      return data.map((json) => Categorie.fromJson(json)).toList();
-    } else {
-      throw Exception("Failed to load categories");
-    }
-  }
-
-  Future<List<Course>> fetchCourses() async {
-    final response = await http.get(Uri.parse("$baseUrl/courses/"));
-    if (response.statusCode == 200) {
-      List<dynamic> data = json.decode(response.body);
-      return data.map((json) => Course.fromJson(json)).toList();
-    } else {
-      throw Exception("Failed to load courses");
-    }
+    _categoriesFuture = fetchCategories(baseUrl);
+    _coursesFuture = fetchCourses(baseUrl);
   }
 
   @override

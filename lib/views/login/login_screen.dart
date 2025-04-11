@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:email_validator/email_validator.dart';
 
 import 'package:intellectra/components/constants.dart';
 import 'package:intellectra/components/auth_build.dart';
@@ -17,8 +18,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class LoginScreenState extends State<LoginScreen> {
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  var formKey = GlobalKey<FormState>();
+  bool _passwordVisible = true;
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   Future<void> login() async {
     final url = Uri.parse('http://127.0.0.1:8000/users/api/login/');
@@ -27,7 +30,7 @@ class LoginScreenState extends State<LoginScreen> {
       url,
       headers: {"Content-Type": "application/json"},
       body: jsonEncode({
-        'username': usernameController.text,
+        'email': emailController.text,
         'password': passwordController.text,
       }),
     );
@@ -49,15 +52,26 @@ class LoginScreenState extends State<LoginScreen> {
           '/home',
           arguments: data['id'],
         );
-      } else if (role == "professor") {
+      } else if (role == "prof") {
         // Navigator.pushReplacement(
         //     context, MaterialPageRoute(builder: (context) => HomeScreen()));
+        Navigator.pushNamed(
+          context,
+          '/professor',
+          arguments: data['access'],
+        );
       }
     } else {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text("Invalid username or password")));
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _passwordVisible = false;
   }
 
   @override
@@ -75,40 +89,71 @@ class LoginScreenState extends State<LoginScreen> {
                 child: Image.asset('assets/images/logo.png', height: 50),
               ),
               const SizedBox(height: 30),
-              Image.asset('assets/images/login_asset.png', height: 150),
-              const SizedBox(height: 7),
-              Text(
-                'Welcome Back!',
-                style: GoogleFonts.poppins(
-                  color: Colors.black87,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w400,
+              Container(
+                margin: const EdgeInsets.only(bottom: 32),
+                height: 230,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/login_asset.png',
+                      width: 200,
+                      height: 160,
+                    ),
+                    const Text(
+                      'Welcome Back',
+                      style: TextStyle(fontSize: 28),
+                    ),
+                    const Text(
+                      'Please login with your account to continue',
+                      style: TextStyle(fontSize: 13, color: Colors.grey),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 40),
-              TextField(
-                obscureText: false,
-                controller: usernameController,
-                decoration: InputDecoration(
-                  labelText: 'Username',
-                  hintText: 'Username',
-                  prefixIcon: const Icon(Icons.person),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              TextField(
-                controller: passwordController,
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: 'password',
-                  hintText: 'password',
-                  prefixIcon: const Icon(Icons.password),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+              Form(
+                key: formKey,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Email'),
+                    buildEmailField(emailController: emailController),
+                    const SizedBox(height: 14),
+                    const Text('Password'),
+                    TextFormField(
+                      controller: passwordController,
+                      obscureText: !_passwordVisible,
+                      validator: (val) {
+                        if (val != null && val.length < 4) {
+                          return 'Masukkan Minimal 4 Karakter';
+                        } else {
+                          return null;
+                        }
+                      },
+                      decoration: InputDecoration(
+                        border: const OutlineInputBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(8),
+                          ),
+                        ),
+                        hintText: 'Enter your password',
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _passwordVisible = !_passwordVisible;
+                            });
+                          },
+                          icon: Icon(_passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 10),
@@ -162,6 +207,36 @@ class LoginScreenState extends State<LoginScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+class buildEmailField extends StatelessWidget {
+  const buildEmailField({
+    Key? key,
+    required this.emailController,
+  }) : super(key: key);
+
+  final TextEditingController emailController;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      controller: emailController,
+      validator: (email) {
+        if (email != null && !EmailValidator.validate(email)) {
+          return 'Enter your email correctly';
+        } else {
+          return null;
+        }
+      },
+      decoration: const InputDecoration(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(8),
+          ),
+        ),
+        hintText: 'Enter your email',
       ),
     );
   }

@@ -32,4 +32,20 @@ class Course {
       rating: json['rating'],
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'image': image,
+      'category': category,
+      'description': description,
+      'professor': professor,
+      'duration': duration,
+      'rating': rating,
+      // 'sections': sections?.map((e) => e.toJson()).toList(),
+      // 'reviews': reviews?.map((e) => e.toJson()).toList(),
+      // 'tools': tools?.map((e) => e.toJson()).toList(),
+    };
+  }
 }
