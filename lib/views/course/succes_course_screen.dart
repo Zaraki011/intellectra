@@ -1,152 +1,224 @@
-import 'package:intellectra/models/course.dart';
-import 'package:intellectra/models/user.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:lottie/lottie.dart';
-import 'package:pdf/pdf.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+// import 'package:intellectra/models/user.dart';
+// import 'package:intellectra/views/course_details/models/course.dart';
+// import 'package:intellectra/views/course_details/services/api_service.dart';
 
-import '../../components/certificate_api.dart';
-import '../../components/data.dart';
-import '../../model/course/enrolled_course_model.dart';
+// // Placeholder for getting user data and token - replace with your actual implementation
+// Future<Map<String, dynamic>> getUserData() async {
+//   // Replace with your logic to get user ID and token
+//   await Future.delayed(Duration(milliseconds: 100)); // Simulate async operation
+//   return {
+//     'userId': 1,
+//     'token': 'your_auth_token',
+//     'userFirstName': 'TestUser',
+//   }; // Example data
+// }
 
-class SuccessCourseScreen extends StatefulWidget {
-  final User user;
-  final Course course;
+// class SuccessCourseScreen extends StatefulWidget {
+//   final Course course;
 
-  const SuccessCourseScreen({
-    super.key,
-    required this.user,
-    required this.course,
-  });
+//   const SuccessCourseScreen({super.key, required this.course});
 
-  @override
-  State<SuccessCourseScreen> createState() => _SuccessCourseScreenState();
-}
+//   @override
+//   _SuccessCourseScreenState createState() => _SuccessCourseScreenState();
+// }
 
-class _SuccessCourseScreenState extends State<SuccessCourseScreen> {
-  int ratingValue = 0;
-  TextEditingController reviewController = TextEditingController();
+// class _SuccessCourseScreenState extends State<SuccessCourseScreen> {
+//   final ApiService _apiService = ApiService();
+//   double ratingValue = 3.0;
+//   TextEditingController reviewController = TextEditingController();
+//   int? userId;
+//   String? token;
+//   String? userFirstName;
+//   bool isLoading = true;
 
-  @override
-  Widget build(BuildContext context) {
-    final data = ModalRoute.of(context)!.settings.arguments as EnrolledCourseModel;
+//   @override
+//   void initState() {
+//     super.initState();
+//     _loadUserData();
+//   }
 
-    return Scaffold(
-      body: SafeArea(
-        minimum: const EdgeInsets.all(24),
-        child: Center(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  backgroundColor: Colors.transparent,
-                  radius: 150,
-                  child: Lottie.asset('assets/images/success.json'),
-                ),
-                const SizedBox(height: 16),
-                const Text('What a Day!'),
-                const SizedBox(height: 8),
-                Text(
-                  'Finally you have completed the ${data.course?.courseName} course very well.',
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 16),
-                Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          final certificateFile = await CertificateAPI.generate(
-                            PdfPageFormat.a4,
-                            CustomData(
-                              name: widget.user.username.toUpperCase() ?? 'USER',
-                              courseName: data.course?.courseName,
-                            ),
-                          );
-                          CertificateAPI.openFile(certificateFile);
-                        },
-                        child: const Text('DOWNLOAD CERTIFICATE'),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (dialogContext) {
-                              return SimpleDialog(
-                                titlePadding: const EdgeInsets.fromLTRB(16, 0, 0, 0),
-                                contentPadding: const EdgeInsets.symmetric(horizontal: 8),
-                                title: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    const Text('Rating a Course', style: TextStyle(fontSize: 16)),
-                                    IconButton(
-                                      onPressed: () => Navigator.pop(dialogContext),
-                                      icon: const Icon(Icons.close_outlined),
-                                    ),
-                                  ],
-                                ),
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Text(data.course!.courseName!),
-                                  ),
-                                  RatingBar.builder(
-                                    initialRating: 1,
-                                    minRating: 1,
-                                    direction: Axis.horizontal,
-                                    itemCount: 5,
-                                    itemPadding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 2),
-                                    itemBuilder: (context, _) => const Icon(Icons.star, color: Colors.amber),
-                                    onRatingUpdate: (rating) {
-                                      setState(() {
-                                        ratingValue = rating.toInt();
-                                      });
-                                    },
-                                  ),
-                                  const SizedBox(height: 8),
-                                  TextFormField(
-                                    controller: reviewController,
-                                    decoration: const InputDecoration(
-                                      hintText: 'Write review...',
-                                      border: OutlineInputBorder(),
-                                    ),
-                                    minLines: 5,
-                                    keyboardType: TextInputType.multiline,
-                                    maxLines: null,
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () async {
-                                      await widget.course.createReview(
-                                        data.id!,
-                                        ratingValue,
-                                        reviewController.text,
-                                      );
-                                      Navigator.pushReplacementNamed(context, '/mainpage');
-                                    },
-                                    child: const Text('SUBMIT'),
-                                  ),
-                                ],
-                              );
-                            },
-                          );
-                        },
-                        child: const Text('RATING COURSE'),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
+//   Future<void> _loadUserData() async {
+//     try {
+//       final userData = await getUserData();
+//       if (mounted) {
+//         setState(() {
+//           userId = userData['userId'];
+//           token = userData['token'];
+//           userFirstName = userData['userFirstName'];
+//           isLoading = false;
+//         });
+//       }
+//     } catch (e) {
+//       if (mounted) {
+//         setState(() {
+//           isLoading = false;
+//         });
+//         ScaffoldMessenger.of(
+//           context,
+//         ).showSnackBar(SnackBar(content: Text('Error loading user data: $e')));
+//       }
+//     }
+//   }
+
+//   @override
+//   void dispose() {
+//     reviewController.dispose();
+//     super.dispose();
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         leading: IconButton(
+//           onPressed: () => Navigator.pop(context),
+//           icon: const Icon(Icons.arrow_back_ios),
+//         ),
+//         title: const Text('Success'),
+//         centerTitle: true,
+//       ),
+//       body: SafeArea(
+//         minimum: const EdgeInsets.all(24),
+//         child:
+//             isLoading
+//                 ? Center(child: CircularProgressIndicator())
+//                 : SingleChildScrollView(
+//                   child: Column(
+//                     mainAxisAlignment: MainAxisAlignment.center,
+//                     children: [
+//                       const SizedBox(height: 32),
+//                       Image.asset(
+//                         'assets/image/success.png',
+//                         width: MediaQuery.of(context).size.width / 1.5,
+//                       ),
+//                       const SizedBox(height: 24),
+//                       Text(
+//                         'Congratulations, ${userFirstName ?? 'Student'}!',
+//                         textAlign: TextAlign.center,
+//                         style: const TextStyle(
+//                           fontSize: 24,
+//                           fontWeight: FontWeight.bold,
+//                         ),
+//                       ),
+//                       const SizedBox(height: 8),
+//                       const Text(
+//                         'You have successfully enrolled in this course.',
+//                         textAlign: TextAlign.center,
+//                         style: TextStyle(color: Colors.black54),
+//                       ),
+//                       const SizedBox(height: 32),
+//                       SizedBox(
+//                         width: double.infinity,
+//                         child: ElevatedButton(
+//                           onPressed: () {
+//                             showDialog(
+//                               context: context,
+//                               builder: (BuildContext context) {
+//                                 return StatefulBuilder(
+//                                   builder: (context, setDialogState) {
+//                                     return AlertDialog(
+//                                       title: const Text('Rate this Course'),
+//                                       content: Column(
+//                                         mainAxisSize: MainAxisSize.min,
+//                                         children: [
+//                                           Text(
+//                                             'Course: ${widget.course.title}',
+//                                           ),
+//                                           Slider(
+//                                             value: ratingValue,
+//                                             min: 1.0,
+//                                             max: 5.0,
+//                                             divisions: 4,
+//                                             label:
+//                                                 ratingValue.round().toString(),
+//                                             onChanged: (double value) {
+//                                               setDialogState(() {
+//                                                 ratingValue = value;
+//                                               });
+//                                             },
+//                                           ),
+//                                           TextField(
+//                                             controller: reviewController,
+//                                             decoration: const InputDecoration(
+//                                               hintText:
+//                                                   'Write your review here...',
+//                                             ),
+//                                             minLines: 3,
+//                                             keyboardType:
+//                                                 TextInputType.multiline,
+//                                             maxLines: 5,
+//                                           ),
+//                                         ],
+//                                       ),
+//                                       actions: [
+//                                         TextButton(
+//                                           child: const Text('CANCEL'),
+//                                           onPressed:
+//                                               () => Navigator.of(context).pop(),
+//                                         ),
+//                                         ElevatedButton(
+//                                           onPressed:
+//                                               (userId == null || token == null)
+//                                                   ? null
+//                                                   : () async {
+//                                                     if (!mounted) return;
+//                                                     try {
+//                                                       await _apiService
+//                                                           .createReview(
+//                                                             widget.course.id,
+//                                                             userId!,
+//                                                             ratingValue,
+//                                                             reviewController
+//                                                                 .text,
+//                                                             token!,
+//                                                           );
+//                                                       if (!mounted) return;
+//                                                       Navigator.of(
+//                                                         context,
+//                                                       ).pop();
+//                                                       ScaffoldMessenger.of(
+//                                                         context,
+//                                                       ).showSnackBar(
+//                                                         SnackBar(
+//                                                           content: Text(
+//                                                             'Review Submitted!',
+//                                                           ),
+//                                                         ),
+//                                                       );
+//                                                     } catch (e) {
+//                                                       if (!mounted) return;
+//                                                       Navigator.of(
+//                                                         context,
+//                                                       ).pop();
+//                                                       ScaffoldMessenger.of(
+//                                                         context,
+//                                                       ).showSnackBar(
+//                                                         SnackBar(
+//                                                           content: Text(
+//                                                             'Failed to submit review: $e',
+//                                                           ),
+//                                                         ),
+//                                                       );
+//                                                     }
+//                                                   },
+//                                           child: const Text('SUBMIT'),
+//                                         ),
+//                                       ],
+//                                     );
+//                                   },
+//                                 );
+//                               },
+//                             );
+//                           },
+//                           child: const Text('RATE COURSE'),
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//       ),
+//     );
+//   }
+// }

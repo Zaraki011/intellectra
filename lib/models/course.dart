@@ -7,7 +7,8 @@ class Course {
   final String duration;
   final String category;
   final double rating;
-
+  final List<String> reviews;
+  final String about;
 
   Course({
     required this.id,
@@ -18,6 +19,8 @@ class Course {
     required this.duration,
     required this.category,
     required this.rating,
+    this.reviews = const [],
+    this.about = '',
   });
 
   factory Course.fromJson(Map<String, dynamic> json) {
@@ -29,7 +32,10 @@ class Course {
       image: json['image'],
       duration: json['duration'],
       category: json['category'],
-      rating: json['rating'],
+      rating: json['rating'].toDouble(),
+      reviews:
+          json['reviews'] != null ? List<String>.from(json['reviews']) : [],
+      about: json['about'] ?? '',
     );
   }
 
@@ -43,8 +49,9 @@ class Course {
       'professor': professor,
       'duration': duration,
       'rating': rating,
+      'reviews': reviews,
+      'about': about,
       // 'sections': sections?.map((e) => e.toJson()).toList(),
-      // 'reviews': reviews?.map((e) => e.toJson()).toList(),
       // 'tools': tools?.map((e) => e.toJson()).toList(),
     };
   }

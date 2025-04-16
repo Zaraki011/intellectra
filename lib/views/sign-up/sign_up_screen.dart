@@ -17,7 +17,8 @@ class SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
   bool _acceptTerms = false;
 
   Future<void> signUp() async {
@@ -31,18 +32,19 @@ class SignUpScreenState extends State<SignUpScreen> {
         'password': passwordController.text,
       }),
     );
-    if (response.statusCode == 201 && _acceptTerms && passwordController.text == confirmPasswordController.text) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Account created successfully'),
-        ),
-      );
+    // Check mount status before using context
+    if (!mounted) return;
+
+    if (response.statusCode == 201 &&
+        _acceptTerms &&
+        passwordController.text == confirmPasswordController.text) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Account created successfully')));
       Navigator.pop(context);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('An error occurred, please try again'),
-        ),
+        SnackBar(content: Text('An error occurred, please try again')),
       );
     }
   }

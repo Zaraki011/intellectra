@@ -6,7 +6,7 @@ import 'package:pdf/pdf.dart';
 import '/../components/data.dart';
 
 class CertificateDetailScreen extends StatelessWidget {
-  const CertificateDetailScreen({Key? key}) : super(key: key);
+  const CertificateDetailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

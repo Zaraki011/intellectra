@@ -4,9 +4,10 @@ import 'package:provider/provider.dart';
 import '../../components/course_card.dart';
 import '../../models/wishlist/wishlist_viewmodel.dart';
 import '../../models/course.dart';
+import 'package:intellectra/views/course/detail_course_screen.dart';
 
 class WishlistScreen extends StatefulWidget {
-  const WishlistScreen({Key? key}) : super(key: key);
+  const WishlistScreen({super.key});
 
   @override
   State<WishlistScreen> createState() => _WishlistScreenState();
@@ -51,7 +52,8 @@ class _WishlistScreenState extends State<WishlistScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => DetailCourseScreen(courseId: course),
+                    builder:
+                        (context) => CourseDetailScreen(courseId: course.id),
                   ),
                 );
               },

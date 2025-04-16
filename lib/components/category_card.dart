@@ -16,9 +16,12 @@ class CategoryCard extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          CircleAvatar(radius: 30, backgroundImage: NetworkImage(category.img)),
+          CircleAvatar(
+            radius: 30,
+            backgroundImage: NetworkImage(category.categoryImage),
+          ),
           Text(
-            category.title,
+            category.categoryName,
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           Text(

@@ -9,7 +9,6 @@ import 'package:intellectra/components/constants.dart';
 import 'package:intellectra/components/auth_build.dart';
 import 'package:intellectra/views/sign-up/sign_up_screen.dart';
 
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -47,19 +46,11 @@ class LoginScreenState extends State<LoginScreen> {
       if (role == "etudiant") {
         // Navigator.pushNamed(
         //     context, '/profile', arguments: data['id']);
-        Navigator.pushNamed(
-          context,
-          '/home',
-          arguments: data['id'],
-        );
+        Navigator.pushNamed(context, '/home', arguments: data['id']);
       } else if (role == "prof") {
         // Navigator.pushReplacement(
         //     context, MaterialPageRoute(builder: (context) => HomeScreen()));
-        Navigator.pushNamed(
-          context,
-          '/professor',
-          arguments: data['access'],
-        );
+        Navigator.pushNamed(context, '/professor', arguments: data['id']);
       }
     } else {
       ScaffoldMessenger.of(
@@ -97,14 +88,11 @@ class LoginScreenState extends State<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Image.asset(
-                      'assets/login_asset.png',
+                      'assets/images/login_asset.png',
                       width: 200,
                       height: 160,
                     ),
-                    const Text(
-                      'Welcome Back',
-                      style: TextStyle(fontSize: 28),
-                    ),
+                    const Text('Welcome Back', style: TextStyle(fontSize: 28)),
                     const Text(
                       'Please login with your account to continue',
                       style: TextStyle(fontSize: 13, color: Colors.grey),
@@ -129,16 +117,14 @@ class LoginScreenState extends State<LoginScreen> {
                       obscureText: !_passwordVisible,
                       validator: (val) {
                         if (val != null && val.length < 4) {
-                          return 'Masukkan Minimal 4 Karakter';
+                          return 'you must enter at least 4 characters';
                         } else {
                           return null;
                         }
                       },
                       decoration: InputDecoration(
                         border: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(8),
-                          ),
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
                         ),
                         hintText: 'Enter your password',
                         suffixIcon: IconButton(
@@ -147,9 +133,11 @@ class LoginScreenState extends State<LoginScreen> {
                               _passwordVisible = !_passwordVisible;
                             });
                           },
-                          icon: Icon(_passwordVisible
-                              ? Icons.visibility
-                              : Icons.visibility_off),
+                          icon: Icon(
+                            _passwordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
                         ),
                       ),
                     ),
@@ -191,7 +179,7 @@ class LoginScreenState extends State<LoginScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => const SignUpScreen(),
-                        )
+                        ),
                       );
                     },
                     child: Text(
@@ -211,11 +199,9 @@ class LoginScreenState extends State<LoginScreen> {
     );
   }
 }
+
 class buildEmailField extends StatelessWidget {
-  const buildEmailField({
-    Key? key,
-    required this.emailController,
-  }) : super(key: key);
+  const buildEmailField({super.key, required this.emailController});
 
   final TextEditingController emailController;
 
@@ -232,9 +218,7 @@ class buildEmailField extends StatelessWidget {
       },
       decoration: const InputDecoration(
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(8),
-          ),
+          borderRadius: BorderRadius.all(Radius.circular(8)),
         ),
         hintText: 'Enter your email',
       ),
