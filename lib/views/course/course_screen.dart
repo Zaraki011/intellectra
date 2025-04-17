@@ -35,7 +35,11 @@ class _CourseScreenState extends State<CourseScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: bottomNavigation(context, 1, ModalRoute.of(context)!.settings.arguments as int),
+      bottomNavigationBar: bottomNavigation(
+        context,
+        1,
+        ModalRoute.of(context)!.settings.arguments as int,
+      ),
       backgroundColor: backgroundColor,
       appBar: AppBar(
         centerTitle: true,

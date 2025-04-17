@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intellectra/components/constants.dart';
-import 'package:intellectra/views/profile/profile_screen.dart';
+import 'package:intellectra/views/professor/professor_profile_screen.dart'; // Import the new screen
 import 'add_course_screen.dart'; // Import the screen to navigate to
 import 'package:intellectra/views/course_details/models/course.dart'; // Import Course model
 import 'package:intellectra/views/course_details/services/api_service.dart'; // Import ApiService
@@ -230,19 +230,18 @@ class ProfessorCoursesScreenState extends State<ProfessorCoursesScreen> {
           currentIndex: 0, // 0 for "My Courses"
           onTap: (index) {
             if (index == 1) {
-              // Navigate to Profile screen
+              // Navigate to Professor Profile screen
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder:
-                      (context) =>
-                          const ProfileScreen(), // Using the correct class name from import
+                  builder: (context) => ProfessorProfileScreen(),
+                  settings: RouteSettings(arguments: widget.professorId),
                 ),
               );
             }
             // Index 0 is the current screen, so no action needed
           },
-          items: [
+          items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.book),
               label: 'My Courses',

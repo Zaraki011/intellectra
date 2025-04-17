@@ -14,7 +14,7 @@ class SectionMenu {
     onPageSelected, // Callback accepting the target PageView index
   ) {
     // Use the sections list as the primary source for menu items
-    final sections = course.pdfInternalData!.sections ?? [];
+    final sections = course.pdfInternalData!.sections;
     // Check if the course actually has quizzes
     final bool hasQuizzes = course.quizzes.isNotEmpty;
 

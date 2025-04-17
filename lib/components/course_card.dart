@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intellectra/views/course_details/screens/courses_detail_page.dart';
 import '../../models/course.dart';
 
 class CourseCard extends StatelessWidget {

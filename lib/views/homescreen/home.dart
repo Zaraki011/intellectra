@@ -1,14 +1,16 @@
 // import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intellectra/providers/api/fetch_data_api.dart';
+import 'package:intellectra/chatbot/screen/feature/chatbot_feature.dart';
 
 import 'package:intellectra/components/carousel.dart';
 import '../../components/category_card.dart';
 import '../../components/course_card.dart';
 import '../../components/bottom_navigation.dart';
-import '../../models/course.dart'; 
+import '../../models/course.dart';
 import '../../components/constants.dart';
 import 'package:intellectra/models/category.dart';
+import 'package:intellectra/chatbot/helper/global.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -32,12 +34,30 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    mq = MediaQuery.sizeOf(context);
+    
     return Scaffold(
       backgroundColor: backgroundColor,
-      bottomNavigationBar: bottomNavigation(context, 0, ModalRoute.of(context)!.settings.arguments as int),
+      bottomNavigationBar: bottomNavigation(
+        context,
+        0,
+        ModalRoute.of(context)!.settings.arguments as int,
+      ),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Image.asset('assets/images/logo.png', height: 40),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ChatBotFeature()),
+          );
+        },
+        backgroundColor: primaryColor,
+        tooltip: 'Chat Assistant',
+        child: const Icon(Icons.chat, color: Colors.white),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),

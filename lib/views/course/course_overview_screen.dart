@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intellectra/providers/api/fetch_data_api.dart'; // Import the API functions
 
 class CourseOverviewScreen extends StatefulWidget {
-  const CourseOverviewScreen({Key? key}) : super(key: key);
+  const CourseOverviewScreen({super.key});
 
   @override
   State<CourseOverviewScreen> createState() => _CourseOverviewScreenState();
