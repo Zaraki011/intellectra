@@ -23,7 +23,7 @@ class MessageCard extends StatelessWidget {
             CircleAvatar(
               radius: 18,
               backgroundColor: Colors.white,
-              child: Image.asset('assets/images/logo.png', width: 24),
+              child: Image.asset('assets/images/logo_chatbot.png', width: 24),
             ),
 
             //

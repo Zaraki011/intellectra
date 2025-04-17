@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:intellectra/components/bottom_navigation.dart';
 import 'package:intellectra/components/constants.dart';
 import 'package:intellectra/components/menu_item.dart';
 import 'package:cached_network_image/cached_network_image.dart';
